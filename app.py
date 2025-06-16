@@ -12,10 +12,13 @@ if "chat_history_1" not in st.session_state:
 col1, col2, col3 = st.columns(3)
 
 # --- Prompt input ---
-prompt = st.text_input("Enter your prompt:", key="prompt_input")
+if "prompt_input" not in st.session_state:
+    st.session_state.prompt_input = ""
+prompt = st.text_input("Enter your prompt:", value=st.session_state.prompt_input, key="prompt_input_box")
 
 # --- Submit button ---
-if st.button("Submit") and prompt.strip():
+if st.button("Submit") and st.session_state.prompt_input_box.strip():
+    prompt = st.session_state.prompt_input_box
     # Add prompt to GPT-3.5 chat history
     st.session_state.chat_history_1.append(("User", prompt))
 
