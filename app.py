@@ -58,7 +58,7 @@ with col1:
     for sender, message in st.session_state.chat_history_1:
         # Escape to avoid stray HTML tags appearing
         safe_message = html.escape(message)
-        conversation += f"**{sender}:**\n{safe_message}\n\n"
+        conversation += f"**{sender}:**  \n{safe_message}\n"
 
     st.markdown(
         f"""
