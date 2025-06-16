@@ -73,7 +73,7 @@ with col1:
         <div style="
             height: 60vh
             min-height: 300px;
-            max-height: 80vh;
+            max-height: 70vh;
             overflow-y: auto;
             white-space: pre-wrap;
             padding: 10px;
