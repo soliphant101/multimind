@@ -14,7 +14,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 #title
-st.title("🧠 MultiMind")
+st.title("🧠 MultiMind ")
 
 # Initialize session state
 if "chat_history_1" not in st.session_state:
