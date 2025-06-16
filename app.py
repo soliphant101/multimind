@@ -4,23 +4,27 @@ import requests
 st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
 
-# --- Initialize chat histories (move this above) ---
+# --- Initialize chat history before usage ---
 if "chat_history_1" not in st.session_state:
     st.session_state.chat_history_1 = []
 
 def clear_text():
+    # Clear input box after submit
     st.session_state.prompt_input_box = ""
 
-# --- Prompt input with on_change callback ---
-prompt = st.text_input("Enter your prompt:", key="prompt_input_box", on_change=clear_text)
+# --- Prompt input with on_change callback to clear after submit ---
+prompt = st.text_input(
+    "Enter your prompt:", 
+    key="prompt_input_box",
+    on_change=clear_text,
+)
 
 # --- Submit button ---
-if st.button("Submit") and st.session_state.prompt_input_box.strip():
-    prompt = st.session_state.prompt_input_box
-    # Add prompt to GPT-3.5 chat history
-    st.session_state.chat_history_1.append(("User", prompt))
+if st.button("Submit") and prompt.strip():
+    user_prompt = prompt.strip()
+    st.session_state.chat_history_1.append(("User", user_prompt))
 
-    # === GPT-3.5 API Call via OpenRouter ===
+    # Call GPT-3.5 via OpenRouter
     api_key = st.secrets["OPENROUTER_API_KEY"]
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -34,7 +38,7 @@ if st.button("Submit") and st.session_state.prompt_input_box.strip():
             headers=headers,
             json={
                 "model": "openai/gpt-3.5-turbo",
-                "messages": [{"role": "user", "content": prompt}]
+                "messages": [{"role": "user", "content": user_prompt}]
             }
         )
         result = response.json()
@@ -42,16 +46,14 @@ if st.button("Submit") and st.session_state.prompt_input_box.strip():
     except Exception as e:
         reply = f"⚠️ Error: {str(e)}"
 
-    # Append model reply to GPT-3.5 chat history
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
-# --- Layout setup for 3 columns ---
+# --- Layout: 3 columns ---
 col1, col2, col3 = st.columns(3)
 
-# --- Display GPT-3.5 Chat History ---
+# --- Left column: Show conversation ---
 with col1:
     st.subheader("GPT-3.5 via OpenRouter")
-
     conversation = ""
     for sender, message in st.session_state.chat_history_1:
         conversation += f"**{sender}:**\n{message}\n\n"
@@ -74,12 +76,11 @@ with col1:
         unsafe_allow_html=True,
     )
 
-# --- Placeholder for Model 2 ---
+# --- Right columns: placeholders ---
 with col2:
     st.subheader("Model 2 (coming soon)")
     st.info("This column will show responses from your second AI model.")
 
-# --- Placeholder for Model 3 ---
 with col3:
     st.subheader("Model 3 (coming soon)")
     st.info("This column will show responses from your third AI model.")
