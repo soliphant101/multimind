@@ -71,7 +71,9 @@ with col1:
     st.markdown(
         f"""
         <div style="
-            max-height: 400px;
+            height: 60vh
+            min-height: 300px;
+            max-height: 80vh;
             overflow-y: auto;
             white-space: pre-wrap;
             padding: 10px;
