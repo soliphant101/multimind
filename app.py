@@ -3,6 +3,17 @@ import requests
 import html  # For escaping output
 
 st.set_page_config(layout="wide")
+
+#reduce whitespace at top of page
+st.markdown("""
+    <style>
+    .block-container {
+        padding-top: 1rem;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+#title
 st.title("🧠 MultiMind")
 
 # Initialize session state
@@ -60,7 +71,7 @@ st.text_input("Enter your prompt and press ENTER:", key="prompt_input_box", on_c
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.subheader("GPT-3.5 via OpenRouter")
+    st.markdown('<h3>GPT-3.5 via OpenRouter</h3>', unsafe_allow_html=True)
 
     conversation = ""
     for sender, message in st.session_state.chat_history_1:
