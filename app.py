@@ -6,8 +6,8 @@ st.title("🧠 MultiMind")
 
 # --- Prompt input ---
 if "prompt_input_box" not in st.session_state:
-    st.session_state.prompt_input_x = ""
-prompt = st.text_input("Enter your prompt:", value=st.session_state.prompt_input, key="prompt_input_box")
+    st.session_state.prompt_input_box = ""
+prompt = st.text_input("Enter your prompt:", value=st.session_state.prompt_input_box, key="prompt_input_box")
 
 # --- Submit button ---
 if st.button("Submit") and st.session_state.prompt_input_box.strip():
