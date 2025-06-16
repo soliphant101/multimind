@@ -4,35 +4,22 @@ import requests
 st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
 
-# Initialize session state variables if missing
-if "prompt_input_box" not in st.session_state:
-    st.session_state.prompt_input_box = ""
-
+# Initialize session state variables early
 if "chat_history_1" not in st.session_state:
     st.session_state.chat_history_1 = []
 
-if "clear_input_flag" not in st.session_state:
-    st.session_state.clear_input_flag = False
-
-# Clear the prompt input safely by setting a flag and rerunning
-def clear_input():
+if "prompt_input_box" not in st.session_state:
     st.session_state.prompt_input_box = ""
-    st.session_state.clear_input_flag = False
-    st.experimental_rerun()
 
-# If the clear flag is set, clear input and rerun
-if st.session_state.clear_input_flag:
-    clear_input()
+# Prompt input box, controlled by session state
+prompt = st.text_input("Enter your prompt:", key="prompt_input_box")
 
-# Prompt input
-prompt = st.text_input("Enter your prompt:", value=st.session_state.prompt_input_box, key="prompt_input_box")
+# Submit button and logic
+if st.button("Submit") and st.session_state.prompt_input_box.strip():
+    user_prompt = st.session_state.prompt_input_box.strip()
+    st.session_state.chat_history_1.append(("User", user_prompt))
 
-# Submit button logic
-if st.button("Submit") and prompt.strip():
-    prompt_text = prompt.strip()
-    st.session_state.chat_history_1.append(("User", prompt_text))
-
-    # GPT-3.5 API call via OpenRouter
+    # Prepare API call
     api_key = st.secrets["OPENROUTER_API_KEY"]
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -46,7 +33,7 @@ if st.button("Submit") and prompt.strip():
             headers=headers,
             json={
                 "model": "openai/gpt-3.5-turbo",
-                "messages": [{"role": "user", "content": prompt_text}]
+                "messages": [{"role": "user", "content": user_prompt}]
             }
         )
         response.raise_for_status()
@@ -57,13 +44,12 @@ if st.button("Submit") and prompt.strip():
 
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
-    # Set flag to clear input next run (safe)
-    st.session_state.clear_input_flag = True
+    # Clear input box for next prompt (this works because prompt uses the key)
+    st.session_state.prompt_input_box = ""
 
-# Layout for three columns
+# Layout columns (1st column shows GPT-3.5 chat history)
 col1, col2, col3 = st.columns(3)
 
-# Display GPT-3.5 chat history in col1 with scrollable box
 with col1:
     st.subheader("GPT-3.5 via OpenRouter")
 
@@ -89,7 +75,6 @@ with col1:
         unsafe_allow_html=True,
     )
 
-# Placeholders for Model 2 and Model 3
 with col2:
     st.subheader("Model 2 (coming soon)")
     st.info("This column will show responses from your second AI model.")
