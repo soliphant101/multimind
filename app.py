@@ -12,6 +12,14 @@ if "chat_history_1" not in st.session_state:
 if "prompt_input_box" not in st.session_state:
     st.session_state.prompt_input_box = ""
 
+# — Helper to convert our session format into OpenRouter format
+def get_message_history():
+    messages = [{"role": "system", "content": "You are a helpful assistant."}]  # Optional, but good
+    for sender, message in st.session_state.chat_history_1:
+        role = "user" if sender == "User" else "assistant"
+        messages.append({"role": role, "content": message})
+    return messages
+
 # Function to submit prompt and clear input
 def submit_prompt():
     prompt = st.session_state.prompt_input_box.strip()
@@ -31,7 +39,7 @@ def submit_prompt():
             headers=headers,
             json={
                 "model": "openai/gpt-3.5-turbo",
-                "messages": [{"role": "user", "content": prompt}]
+                "messages": get_message_history()
             }
         )
         response.raise_for_status()
@@ -46,7 +54,7 @@ def submit_prompt():
     st.session_state.prompt_input_box = ""
 
 # Input text box with key bound to session state
-st.text_input("Enter your prompt:", key="prompt_input_box", on_change=submit_prompt)
+st.text_input("Enter your prompt and press ENTER:", key="prompt_input_box", on_change=submit_prompt)
 
 # Layout for chat display
 col1, col2, col3 = st.columns(3)
