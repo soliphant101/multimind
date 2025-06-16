@@ -5,8 +5,8 @@ st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
 
 # --- Prompt input ---
-if "prompt_input" not in st.session_state:
-    st.session_state.prompt_input = ""
+if "prompt_input_box" not in st.session_state:
+    st.session_state.prompt_input_x = ""
 prompt = st.text_input("Enter your prompt:", value=st.session_state.prompt_input, key="prompt_input_box")
 
 # --- Submit button ---
@@ -41,7 +41,7 @@ if st.button("Submit") and st.session_state.prompt_input_box.strip():
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
     # Clear the prompt input
-    st.session_state.prompt_input = ""
+    st.session_state.prompt_input_box = ""
 
 # --- Initialize chat histories ---
 if "chat_history_1" not in st.session_state:
