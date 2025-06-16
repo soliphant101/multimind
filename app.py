@@ -4,10 +4,15 @@ import requests
 st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
 
-# --- Prompt input ---
-if "prompt_input_box" not in st.session_state:
+# --- Initialize chat histories (move this above) ---
+if "chat_history_1" not in st.session_state:
+    st.session_state.chat_history_1 = []
+
+def clear_text():
     st.session_state.prompt_input_box = ""
-prompt = st.text_input("Enter your prompt:", value=st.session_state.prompt_input_box, key="prompt_input_box")
+
+# --- Prompt input with on_change callback ---
+prompt = st.text_input("Enter your prompt:", key="prompt_input_box", on_change=clear_text)
 
 # --- Submit button ---
 if st.button("Submit") and st.session_state.prompt_input_box.strip():
@@ -40,27 +45,17 @@ if st.button("Submit") and st.session_state.prompt_input_box.strip():
     # Append model reply to GPT-3.5 chat history
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
-    # Clear the prompt input
-    st.session_state.prompt_input_box = ""
-
-# --- Initialize chat histories ---
-if "chat_history_1" not in st.session_state:
-    st.session_state.chat_history_1 = []
-
 # --- Layout setup for 3 columns ---
 col1, col2, col3 = st.columns(3)
-
 
 # --- Display GPT-3.5 Chat History ---
 with col1:
     st.subheader("GPT-3.5 via OpenRouter")
 
-    # Join all chat history messages into one big string
     conversation = ""
     for sender, message in st.session_state.chat_history_1:
         conversation += f"**{sender}:**\n{message}\n\n"
 
-    # Display in a scrollable container with wrapping
     st.markdown(
         f"""
         <div style="
@@ -74,7 +69,7 @@ with col1:
             font-family: monospace;
         ">
         {conversation}
-        
+        </div>
         """,
         unsafe_allow_html=True,
     )
