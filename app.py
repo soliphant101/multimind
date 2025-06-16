@@ -33,7 +33,8 @@ if st.button("Submit") and prompt.strip():
                 )
                 result = response.json()
                 output = result['choices'][0]['message']['content']
-                st.code(output)
+                st.markdown(f"<div style='white-space: pre-wrap; overflow-y: auto; height: 300px;'>{output}</div>",
+    unsafe_allow_html=True)
 
             except Exception as e:
                 st.error(f"API request failed: {e}")
