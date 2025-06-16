@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import html  # For escaping output
 
 st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
@@ -55,7 +56,9 @@ with col1:
 
     conversation = ""
     for sender, message in st.session_state.chat_history_1:
-        conversation += f"**{sender}:**\n{message}\n\n"
+        # Escape to avoid stray HTML tags appearing
+        safe_message = html.escape(message)
+        conversation += f"**{sender}:**\n{safe_message}\n\n"
 
     st.markdown(
         f"""
