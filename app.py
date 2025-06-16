@@ -1,19 +1,25 @@
 import streamlit as st
 import requests
 
-
 st.set_page_config(layout="wide")
-st.title("MultiMind: Compare AI Models")
+st.title("🧠 MultiMind")
 
-# User input
+# --- Initialize chat histories ---
+if "chat_history_1" not in st.session_state:
+    st.session_state.chat_history_1 = []
+
+# --- Layout setup for 3 columns ---
+col1, col2, col3 = st.columns(3)
+
+# --- Prompt input ---
 prompt = st.text_input("Enter your prompt:", key="prompt_input")
 
-# Handle submission
+# --- Submit button ---
 if st.button("Submit") and prompt.strip():
-    # Add user's message to GPT-3.5's chat history
+    # Add prompt to GPT-3.5 chat history
     st.session_state.chat_history_1.append(("User", prompt))
 
-    # === GPT-3.5 (OpenRouter) ===
+    # === GPT-3.5 API Call via OpenRouter ===
     api_key = st.secrets["OPENROUTER_API_KEY"]
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -35,27 +41,41 @@ if st.button("Submit") and prompt.strip():
     except Exception as e:
         reply = f"⚠️ Error: {str(e)}"
 
-    # Add model's reply to chat history
+    # Append model reply to GPT-3.5 chat history
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
-    # === Placeholder for Model 2 ===
-    # st.session_state.chat_history_2.append(("User", prompt))
-    # response_2 = call_model_2(prompt)
-    # st.session_state.chat_history_2.append(("Model 2", response_2))
-
-    # === Placeholder for Model 3 ===
-    # st.session_state.chat_history_3.append(("User", prompt))
-    # response_3 = call_model_3(prompt)
-    # st.session_state.chat_history_3.append(("Model 3", response_3))
-
-    # Clear input field after submission
+    # Clear the prompt input
     st.session_state.prompt_input = ""
 
+# --- Display GPT-3.5 Chat History ---
+with col1:
+    st.subheader("GPT-3.5 via OpenRouter")
 
-    with col2:
-        st.subheader("Model 2 (Coming Soon)")
-        st.code("Placeholder...")
+    for sender, message in st.session_state.chat_history_1:
+        st.markdown(
+            f"""
+            <div style='
+                white-space: pre-wrap;
+                overflow-y: auto;
+                margin-bottom: 1em;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+                font-family: monospace;
+            '>
+            <strong>{sender}:</strong><br>{message}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-    with col3:
-        st.subheader("Model 3 (Coming Soon)")
-        st.code("Placeholder...")
+# --- Placeholder for Model 2 ---
+with col2:
+    st.subheader("Model 2 (coming soon)")
+    st.info("This column will show responses from your second AI model.")
+
+# --- Placeholder for Model 3 ---
+with col3:
+    st.subheader("Model 3 (coming soon)")
+    st.info("This column will show responses from your third AI model.")
