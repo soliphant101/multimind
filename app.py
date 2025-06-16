@@ -74,7 +74,7 @@ with col1:
             font-family: monospace;
         ">
         {conversation}
-        </div>
+        
         """,
         unsafe_allow_html=True,
     )
