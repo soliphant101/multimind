@@ -1,29 +1,36 @@
 import streamlit as st
 import requests
+import html  # <-- Import this to escape message content
 
 st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
 
-# Initialize session state
+# Initialize chat histories if not already
 if "chat_history_1" not in st.session_state:
     st.session_state.chat_history_1 = []
 
+# Initialize prompt input if not already
 if "prompt_input_box" not in st.session_state:
     st.session_state.prompt_input_box = ""
 
-# Function to submit prompt and clear input
-def submit_prompt():
-    prompt = st.session_state.prompt_input_box.strip()
-    if not prompt:
-        return
+# Input box for prompt
+prompt = st.text_input("Enter your prompt:", key="prompt_input_box")
+
+# Submit button logic
+if st.button("Submit") and st.session_state.prompt_input_box.strip():
+    prompt = st.session_state.prompt_input_box
+
+    # Add prompt to chat history
     st.session_state.chat_history_1.append(("User", prompt))
 
+    # Call OpenRouter API
     api_key = st.secrets["OPENROUTER_API_KEY"]
     headers = {
         "Authorization": f"Bearer {api_key}",
         "HTTP-Referer": "https://multimind-gld4dbah8hzh2pa4ujh6qq.streamlit.app",
         "X-Title": "MultiMind"
     }
+
     try:
         response = requests.post(
             "https://openrouter.ai/api/v1/chat/completions",
@@ -33,30 +40,29 @@ def submit_prompt():
                 "messages": [{"role": "user", "content": prompt}]
             }
         )
-        response.raise_for_status()
         result = response.json()
         reply = result['choices'][0]['message']['content']
     except Exception as e:
         reply = f"⚠️ Error: {str(e)}"
 
+    # Append model reply
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
-    # CLEAR input here safely:
+    # Clear input box AFTER processing the input
     st.session_state.prompt_input_box = ""
 
-# Input text box with key bound to session state
-st.text_input("Enter your prompt:", key="prompt_input_box", on_change=submit_prompt)
-
-# Layout for chat display
+# Layout columns
 col1, col2, col3 = st.columns(3)
 
+# Build conversation string with escaped message content
+conversation = ""
+for sender, message in st.session_state.chat_history_1:
+    safe_message = html.escape(message)  # <-- Escape each message here
+    conversation += f"**{sender}:**\n{safe_message}\n\n"
+
+# Display conversation inside scrollable box
 with col1:
     st.subheader("GPT-3.5 via OpenRouter")
-
-    conversation = ""
-    for sender, message in st.session_state.chat_history_1:
-        conversation += f"**{sender}:**\n{message}\n\n"
-
     st.markdown(
         f"""
         <div style="
@@ -75,6 +81,7 @@ with col1:
         unsafe_allow_html=True,
     )
 
+# Placeholders for future models
 with col2:
     st.subheader("Model 2 (coming soon)")
     st.info("This column will show responses from your second AI model.")
