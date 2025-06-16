@@ -4,36 +4,33 @@ import requests
 st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
 
-# Initialize session state variables early
+# Initialize session state
 if "chat_history_1" not in st.session_state:
     st.session_state.chat_history_1 = []
 
 if "prompt_input_box" not in st.session_state:
     st.session_state.prompt_input_box = ""
 
-# Prompt input box, controlled by session state
-prompt = st.text_input("Enter your prompt:", key="prompt_input_box")
+# Function to submit prompt and clear input
+def submit_prompt():
+    prompt = st.session_state.prompt_input_box.strip()
+    if not prompt:
+        return
+    st.session_state.chat_history_1.append(("User", prompt))
 
-# Submit button and logic
-if st.button("Submit") and st.session_state.prompt_input_box.strip():
-    user_prompt = st.session_state.prompt_input_box.strip()
-    st.session_state.chat_history_1.append(("User", user_prompt))
-
-    # Prepare API call
     api_key = st.secrets["OPENROUTER_API_KEY"]
     headers = {
         "Authorization": f"Bearer {api_key}",
         "HTTP-Referer": "https://multimind-gld4dbah8hzh2pa4ujh6qq.streamlit.app",
         "X-Title": "MultiMind"
     }
-
     try:
         response = requests.post(
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
             json={
                 "model": "openai/gpt-3.5-turbo",
-                "messages": [{"role": "user", "content": user_prompt}]
+                "messages": [{"role": "user", "content": prompt}]
             }
         )
         response.raise_for_status()
@@ -44,10 +41,13 @@ if st.button("Submit") and st.session_state.prompt_input_box.strip():
 
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
-    # Clear input box for next prompt (this works because prompt uses the key)
+    # CLEAR input here safely:
     st.session_state.prompt_input_box = ""
 
-# Layout columns (1st column shows GPT-3.5 chat history)
+# Input text box with key bound to session state
+st.text_input("Enter your prompt:", key="prompt_input_box", on_change=submit_prompt)
+
+# Layout for chat display
 col1, col2, col3 = st.columns(3)
 
 with col1:
