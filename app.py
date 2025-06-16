@@ -4,13 +4,6 @@ import requests
 st.set_page_config(layout="wide")
 st.title("🧠 MultiMind")
 
-# --- Initialize chat histories ---
-if "chat_history_1" not in st.session_state:
-    st.session_state.chat_history_1 = []
-
-# --- Layout setup for 3 columns ---
-col1, col2, col3 = st.columns(3)
-
 # --- Prompt input ---
 if "prompt_input" not in st.session_state:
     st.session_state.prompt_input = ""
@@ -50,28 +43,41 @@ if st.button("Submit") and st.session_state.prompt_input_box.strip():
     # Clear the prompt input
     st.session_state.prompt_input = ""
 
+# --- Initialize chat histories ---
+if "chat_history_1" not in st.session_state:
+    st.session_state.chat_history_1 = []
+
+# --- Layout setup for 3 columns ---
+col1, col2, col3 = st.columns(3)
+
+
 # --- Display GPT-3.5 Chat History ---
 with col1:
     st.subheader("GPT-3.5 via OpenRouter")
 
+    # Join all chat history messages into one big string
+    conversation = ""
     for sender, message in st.session_state.chat_history_1:
-        st.markdown(
-            f"""
-            <div style='
-                white-space: pre-wrap;
-                overflow-y: auto;
-                margin-bottom: 1em;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                background-color: #f9f9f9;
-                font-family: monospace;
-            '>
-            <strong>{sender}:</strong><br>{message}
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        conversation += f"**{sender}:**\n{message}\n\n"
+
+    # Display in a scrollable container with wrapping
+    st.markdown(
+        f"""
+        <div style="
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-family: monospace;
+        ">
+        {conversation}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 # --- Placeholder for Model 2 ---
 with col2:
