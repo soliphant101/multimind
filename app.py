@@ -14,7 +14,7 @@ if "prompt_input_box" not in st.session_state:
 
 # — Helper to convert our session format into OpenRouter format
 def get_message_history():
-    messages = [{"role": "system", "content": "You are a helpful assistant."}]  # Optional, but good
+    messages = [{"role": "system", "content": "You are a helpful assistant."}]
     for sender, message in st.session_state.chat_history_1:
         role = "user" if sender == "User" else "assistant"
         messages.append({"role": role, "content": message})
