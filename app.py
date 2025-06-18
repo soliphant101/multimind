@@ -107,9 +107,8 @@ with col1:
     st.markdown(
         f"""
         <div style="
-            height: 60vh
-            min-height: 300px;
             max-height: 70vh;
+            min-height: 300px;
             overflow-y: auto;
             white-space: pre-wrap;
             padding: 10px;
@@ -135,9 +134,8 @@ with col2:
     st.markdown(
         f"""
         <div style="
-            height: 60vh;
-            min-height: 300px;
             max-height: 70vh;
+            min-height: 300px;
             overflow-y: auto;
             white-space: pre-wrap;
             padding: 10px;
