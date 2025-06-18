@@ -20,6 +20,9 @@ st.title("🧠 MultiMind ")
 if "chat_history_1" not in st.session_state:
     st.session_state.chat_history_1 = []
 
+if "chat_history_2" not in st.session_state:
+    st.session_state.chat_history_2 = []
+
 if "prompt_input_box" not in st.session_state:
     st.session_state.prompt_input_box = ""
 
@@ -61,6 +64,28 @@ def submit_prompt():
 
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
+     # --- CLAUDE via OpenRouter ---
+    st.session_state.chat_history_2.append(("User", prompt))  # Add same user prompt
+
+    try:
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json={
+                "model": "anthropic/claude-3-opus",
+                "messages": [{"role": "system", "content": "You are a helpful assistant."}] +
+                           [{"role": "user" if s == "User" else "assistant", "content": m}
+                            for s, m in st.session_state.chat_history_2]
+            }
+        )
+        response.raise_for_status()
+        result = response.json()
+        reply = result['choices'][0]['message']['content']
+    except Exception as e:
+        reply = f"⚠️ Error: {str(e)}"
+
+    st.session_state.chat_history_2.append(("Claude", reply))
+
     # CLEAR input here safely:
     st.session_state.prompt_input_box = ""
 
@@ -100,8 +125,32 @@ with col1:
     )
 
 with col2:
-    st.subheader("Model 2 (coming soon)")
-    st.info("This column will show responses from your second AI model.")
+    st.markdown('<h4>Claude 3 via OpenRouter</h4>', unsafe_allow_html=True)
+
+    conversation = ""
+    for sender, message in st.session_state.chat_history_2:
+        safe_message = html.escape(message)
+        conversation += f"\n**{sender}:**\n{safe_message}\n\n"
+
+    st.markdown(
+        f"""
+        <div style="
+            height: 60vh;
+            min-height: 300px;
+            max-height: 70vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-family: monospace;
+        ">
+        {conversation}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 with col3:
     st.subheader("Model 3 (coming soon)")
