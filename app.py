@@ -183,10 +183,9 @@ with col3:
         conversation += f"\n**{sender}:**\n{safe_message}\n\n"
     st.markdown(
         f"""
-        <div style="
-            height: 60vh;
-            min-height: 300px;
+       <div style="
             max-height: 70vh;
+            min-height: 200px;
             overflow-y: auto;
             white-space: pre-wrap;
             padding: 10px;
