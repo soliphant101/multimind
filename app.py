@@ -16,12 +16,15 @@ st.markdown("""
 #title
 st.title("🧠 MultiMind ")
 
-# Initialize session state
+# Initialize session states
 if "chat_history_1" not in st.session_state:
     st.session_state.chat_history_1 = []
 
 if "chat_history_2" not in st.session_state:
     st.session_state.chat_history_2 = []
+
+if "chat_history_3" not in st.session_state:
+    st.session_state.chat_history_3 = []
 
 if "prompt_input_box" not in st.session_state:
     st.session_state.prompt_input_box = ""
@@ -84,7 +87,29 @@ def submit_prompt():
     except Exception as e:
         reply = f"⚠️ Error: {str(e)}"
 
-    st.session_state.chat_history_2.append(("Llama", reply))
+    st.session_state.chat_history_2.append(("LLaMA", reply))
+
+       # --- Gemini via OpenRouter ---
+    st.session_state.chat_history_3.append(("User", prompt))  # Add same user prompt
+
+    try:
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json={
+                "model": "google/gemini-2.5-pro-exp-03-25:free",
+                "messages": [{"role": "system", "content": "You are a helpful assistant."}] +
+                           [{"role": "user" if s == "User" else "assistant", "content": m}
+                            for s, m in st.session_state.chat_history_3]
+            }
+        )
+        response.raise_for_status()
+        result = response.json()
+        reply = result['choices'][0]['message']['content']
+    except Exception as e:
+        reply = f"⚠️ Error: {str(e)}"
+
+    st.session_state.chat_history_3.append(("Gemini", reply))
 
     # CLEAR input here safely:
     st.session_state.prompt_input_box = ""
@@ -108,7 +133,7 @@ with col1:
         f"""
         <div style="
             max-height: 70vh;
-            min-height: 300px;
+            min-height: 200px;
             overflow-y: auto;
             white-space: pre-wrap;
             padding: 10px;
@@ -135,7 +160,7 @@ with col2:
         f"""
         <div style="
             max-height: 70vh;
-            min-height: 300px;
+            min-height: 200px;
             overflow-y: auto;
             white-space: pre-wrap;
             padding: 10px;
@@ -151,5 +176,27 @@ with col2:
     )
 
 with col3:
-    st.subheader("Model 3 (coming soon)")
-    st.info("This column will show responses from your third AI model.")
+    st.markdown('<h4>Gemini 2.5 Pro (Free)</h4>', unsafe_allow_html=True)
+    conversation = ""
+    for sender, message in st.session_state.chat_history_3:
+        safe_message = html.escape(message)
+        conversation += f"\n**{sender}:**\n{safe_message}\n\n"
+    st.markdown(
+        f"""
+        <div style="
+            height: 60vh;
+            min-height: 300px;
+            max-height: 70vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-family: monospace;
+        ">
+        {conversation}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
