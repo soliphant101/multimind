@@ -84,7 +84,7 @@ def submit_prompt():
     except Exception as e:
         reply = f"⚠️ Error: {str(e)}"
 
-    st.session_state.chat_history_2.append(("Claude", reply))
+    st.session_state.chat_history_2.append(("Llama", reply))
 
     # CLEAR input here safely:
     st.session_state.prompt_input_box = ""
@@ -125,7 +125,7 @@ with col1:
     )
 
 with col2:
-    st.markdown('<h4>Claude 3 via OpenRouter</h4>', unsafe_allow_html=True)
+    st.markdown('<h4>LLaMA 3 via OpenRouter</h4>', unsafe_allow_html=True)
 
     conversation = ""
     for sender, message in st.session_state.chat_history_2:
