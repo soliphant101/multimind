@@ -72,7 +72,7 @@ def submit_prompt():
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
             json={
-                "model": "anthropic/claude-3-opus",
+                "model": "meta-llama/llama-3-8b-instruct",
                 "messages": [{"role": "system", "content": "You are a helpful assistant."}] +
                            [{"role": "user" if s == "User" else "assistant", "content": m}
                             for s, m in st.session_state.chat_history_2]
