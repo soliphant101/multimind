@@ -97,7 +97,7 @@ def submit_prompt():
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
             json={
-                "model": "google/gemini-2.5-pro-exp-03-25:free",
+                "model": "google/gemini-pro",
                 "messages": [{"role": "system", "content": "You are a helpful assistant."}] +
                            [{"role": "user" if s == "User" else "assistant", "content": m}
                             for s, m in st.session_state.chat_history_3]
