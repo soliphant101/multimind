@@ -37,6 +37,20 @@ def get_message_history():
         messages.append({"role": role, "content": message})
     return messages
 
+def get_message_history_2():
+    messages = [{"role": "system", "content": "You are a helpful assistant."}]
+    for sender, message in st.session_state.chat_history_2:
+        role = "user" if sender == "User" else "assistant"
+        messages.append({"role": role, "content": message})
+    return messages
+
+def get_message_history_3():
+    messages = [{"role": "system", "content": "You are a helpful assistant."}]
+    for sender, message in st.session_state.chat_history_3:
+        role = "user" if sender == "User" else "assistant"
+        messages.append({"role": role, "content": message})
+    return messages
+
 # Function to submit prompt and clear input
 def submit_prompt():
     prompt = st.session_state.prompt_input_box.strip()
@@ -67,7 +81,7 @@ def submit_prompt():
 
     st.session_state.chat_history_1.append(("GPT-3.5", reply))
 
-     # --- CLAUDE via OpenRouter ---
+     # --- LLaMA via OpenRouter ---
     st.session_state.chat_history_2.append(("User", prompt))  # Add same user prompt
 
     try:
@@ -76,9 +90,7 @@ def submit_prompt():
             headers=headers,
             json={
                 "model": "meta-llama/llama-3-8b-instruct",
-                "messages": [{"role": "system", "content": "You are a helpful assistant."}] +
-                           [{"role": "user" if s == "User" else "assistant", "content": m}
-                            for s, m in st.session_state.chat_history_2]
+                "messages": get_message_history_2()
             }
         )
         response.raise_for_status()
@@ -98,9 +110,7 @@ def submit_prompt():
             headers=headers,
             json={
                 "model": "google/gemini-2.0-flash-exp:free",
-                "messages": [{"role": "system", "content": "You are a helpful assistant."}] +
-                           [{"role": "user" if s == "User" else "assistant", "content": m}
-                            for s, m in st.session_state.chat_history_3]
+                "messages": get_message_history_3()
             }
         )
         response.raise_for_status()
