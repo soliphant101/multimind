@@ -121,7 +121,7 @@ st.text_input("Enter your prompt and press ENTER:", key="prompt_input_box", on_c
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown('<h4>GPT-3.5 via OpenRouter</h4>', unsafe_allow_html=True)
+    st.markdown('<h4>GPT-3.5</h4>', unsafe_allow_html=True)
 
     conversation = ""
     for sender, message in st.session_state.chat_history_1:
@@ -149,7 +149,7 @@ with col1:
     )
 
 with col2:
-    st.markdown('<h4>LLaMA 3 via OpenRouter</h4>', unsafe_allow_html=True)
+    st.markdown('<h4>LLaMA 3</h4>', unsafe_allow_html=True)
 
     conversation = ""
     for sender, message in st.session_state.chat_history_2:
