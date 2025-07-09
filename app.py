@@ -177,7 +177,7 @@ with col1:
      st.markdown(
          f"<div class='response-box'>{conversation}</div>",
          unsafe_allow_html=True,
-)
+        )
 
 
 with col2:
