@@ -69,7 +69,7 @@ def submit_prompt():
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
             json={
-                "model": "openai/gpt-3.5-turbo-0125",
+                "model": "deepseek/deepseek-r1:free",
                 "messages": get_message_history()
             }
         )
@@ -186,7 +186,7 @@ with col2:
     )
 
 with col3:
-    st.markdown('<h4>Gemini 2.5 Pro (Free)</h4>', unsafe_allow_html=True)
+    st.markdown('<h4>Gemini 2.0</h4>', unsafe_allow_html=True)
     conversation = ""
     for sender, message in st.session_state.chat_history_3:
         safe_message = html.escape(message)
