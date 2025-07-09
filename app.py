@@ -201,7 +201,8 @@ with center:
         label="",
         key="prompt_input_box",
         on_change=submit_prompt,
-        label_visibility="collapsed"
+        placeholder="Ask anything..."
+        #label_visibility="collapsed"
     )
 
 
