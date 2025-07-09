@@ -14,7 +14,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 #title
-st.title("🧠 MultiMind ")
+st.markdown("""
+    <h1 style='text-align: center; font-size: 3em; margin-bottom: 1rem;'>🧠 MultiMind</h1>
+""", unsafe_allow_html=True)
 
 # Initialize session states
 if "chat_history_1" not in st.session_state:
@@ -79,7 +81,7 @@ def submit_prompt():
     except Exception as e:
         reply = f"⚠️ Error: {str(e)}"
 
-    st.session_state.chat_history_1.append(("GPT-3.5", reply))
+    st.session_state.chat_history_1.append(("DeepSeek", reply))
 
      # --- LLaMA via OpenRouter ---
     st.session_state.chat_history_2.append(("User", prompt))  # Add same user prompt
@@ -131,7 +133,7 @@ st.text_input("Enter your prompt and press ENTER:", key="prompt_input_box", on_c
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown('<h4>GPT-3.5</h4>', unsafe_allow_html=True)
+    st.markdown('<h4>DeepSeek R1</h4>', unsafe_allow_html=True)
 
     conversation = ""
     for sender, message in st.session_state.chat_history_1:
