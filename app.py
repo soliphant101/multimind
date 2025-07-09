@@ -28,23 +28,33 @@ st.markdown(
 #input box
 st.markdown("""
     <style>
-    /* Style for the input box to match response boxes */
+    /* Input container styling */
     div[data-baseweb="input"] > div {
-        background: linear-gradient(to bottom right, #ffffff, #f1f1f1);
-        border: 1px solid #ddd;
+        background: linear-gradient(to bottom right, #e0f7fa, #b2ebf2);
+        border: 2px solid #4dd0e1;
         border-radius: 15px;
         padding: 10px 14px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
         font-family: 'Poppins', sans-serif;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Optional: style the input text itself */
+    /* Input text styling */
     input[type="text"] {
         font-size: 16px;
         font-family: 'Poppins', sans-serif;
+        background: transparent;
+        color: #004d40;
+    }
+
+    /* Focus effect */
+    div[data-baseweb="input"]:focus-within > div {
+        border-color: #00acc1;
+        box-shadow: 0 0 8px rgba(0, 172, 193, 0.5);
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 #fonts
