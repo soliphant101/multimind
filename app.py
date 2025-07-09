@@ -82,6 +82,26 @@ st.markdown("""
 st.markdown("""
     <h1 class='title-font' style='text-align: center; font-size: 3em; margin-bottom: 1rem;'>🧠 MultiMind</h1>
 """, unsafe_allow_html=True)
+#name
+st.markdown("""
+    <style>
+    .name-tag {
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f0f0f0;
+        padding: 4px 12px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 9999;
+    }
+    </style>
+    <div class="name-tag">Created by: Spencer Oliphant</div>
+""", unsafe_allow_html=True)
 
 
 # Initialize session states
