@@ -127,7 +127,7 @@ def submit_prompt():
     st.session_state.prompt_input_box = ""
 
 # Input text box with key bound to session state
-left, center, right = st.columns([2, 1, 2])
+left, center, right = st.columns([3, 2, 3])
 with center:
     st.markdown("<div style='text-align: center; font-size: 16px; font-weight: bold;'>Enter your prompt and press ENTER:</div>", unsafe_allow_html=True)
     st.text_area(
