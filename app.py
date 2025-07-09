@@ -4,6 +4,29 @@ import html  # For escaping output
 
 st.set_page_config(layout="wide")
 
+# response box layout
+st.markdown(
+    f"""
+    <style>
+    .response-box {{
+        max-height: 70vh;
+        min-height: 200px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        padding: 16px;
+        margin-top: 10px;
+        border-radius: 15px;
+        background: linear-gradient(to bottom right, #ffffff, #f1f1f1);
+        border: 1px solid #ddd;
+        font-family: 'Courier New', monospace;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 #reduce whitespace at top of page
 st.markdown("""
     <style>
@@ -151,40 +174,9 @@ with col1:
         safe_message = html.escape(message)
         conversation += f"\n**{sender}:**\n{safe_message}\n\n"
 
-    st.markdown(
-    f"""
-    <style>
-    .response-box {{
-        max-height: 70vh;
-        min-height: 200px;
-        overflow-y: auto;
-        white-space: pre-wrap;
-        padding: 16px;
-        margin-top: 10px;
-        border-radius: 15px;
-        background: linear-gradient(to bottom right, #ffffff, #f1f1f1);
-        border: 1px solid #ddd;
-        font-family: 'Courier New', monospace;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }}
-    .centered-title {{
-        text-align: center;
-        font-size: 40px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }}
-    .centered-input label {{
-        display: block;
-        text-align: center;
-        font-weight: 500;
-        font-size: 16px;
-    }}
-    .block-container {{
-        padding-top: 2rem;
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True
+     st.markdown(
+         f"<div class='response-box'>{conversation}</div>",
+         unsafe_allow_html=True,
 )
 
 
