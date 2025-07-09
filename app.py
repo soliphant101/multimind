@@ -174,10 +174,10 @@ with col1:
         safe_message = html.escape(message)
         conversation += f"\n**{sender}:**\n{safe_message}\n\n"
 
-     st.markdown(
+    st.markdown(
          f"<div class='response-box'>{conversation}</div>",
          unsafe_allow_html=True,
-     )
+    )
 
 
 with col2:
