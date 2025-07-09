@@ -152,23 +152,41 @@ with col1:
         conversation += f"\n**{sender}:**\n{safe_message}\n\n"
 
     st.markdown(
-        f"""
-        <div style="
-            max-height: 70vh;
-            min-height: 200px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            font-family: monospace;
-        ">
-        {conversation}
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    f"""
+    <style>
+    .response-box {{
+        max-height: 70vh;
+        min-height: 200px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        padding: 16px;
+        margin-top: 10px;
+        border-radius: 15px;
+        background: linear-gradient(to bottom right, #ffffff, #f1f1f1);
+        border: 1px solid #ddd;
+        font-family: 'Courier New', monospace;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }}
+    .centered-title {{
+        text-align: center;
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }}
+    .centered-input label {{
+        display: block;
+        text-align: center;
+        font-weight: 500;
+        font-size: 16px;
+    }}
+    .block-container {{
+        padding-top: 2rem;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 with col2:
     st.markdown('<h4>LLaMA 3</h4>', unsafe_allow_html=True)
