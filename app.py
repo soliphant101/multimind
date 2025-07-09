@@ -25,6 +25,27 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+#input box
+st.markdown("""
+    <style>
+    /* Style for the input box to match response boxes */
+    div[data-baseweb="input"] > div {
+        background: linear-gradient(to bottom right, #ffffff, #f1f1f1);
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        padding: 10px 14px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Optional: style the input text itself */
+    input[type="text"] {
+        font-size: 16px;
+        font-family: 'Poppins', sans-serif;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 
 #fonts
 st.markdown("""
@@ -164,13 +185,15 @@ def submit_prompt():
 # Input text box with key bound to session state
 left, center, right = st.columns([3, 2, 3])
 with center:
-    st.markdown("<div class='instruction-font' style='text-align: center; font-size: 16px; font-weight: bold;'>MultiMind allows you to chat with three different AI models simultaneously. Input your prompt and press ENTER:</div>", unsafe_allow_html=True)
-    st.text_area(
+    st.markdown("<div style='text-align: center; font-size: 16px; font-weight: bold;' class='instruction-font'>MultiMind allows you to chat with three different AI models simultaneously.<br>Input your prompt and press ENTER:</div>", unsafe_allow_html=True)
+    
+    st.text_input(
         label="",
         key="prompt_input_box",
-        height=80,
-        on_change=submit_prompt
+        on_change=submit_prompt,
+        label_visibility="collapsed"
     )
+
 
 
 
