@@ -133,7 +133,7 @@ with center:
     st.text_area(
         label="",
         key="prompt_input_box",
-        height=60,
+        height=80,
         on_change=submit_prompt
     )
 
