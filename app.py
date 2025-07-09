@@ -129,7 +129,14 @@ def submit_prompt():
 # Input text box with key bound to session state
 left, center, right = st.columns([1, 2, 1])
 with center:
-    st.text_input("Enter your prompt and press ENTER:", key="prompt_input_box", on_change=submit_prompt)
+    st.markdown("<div style='text-align: center; font-size: 16px; font-weight: bold;'>Enter your prompt and press ENTER:</div>", unsafe_allow_html=True)
+    st.text_area(
+        label="",
+        key="prompt_input_box",
+        height=100,
+        on_change=submit_prompt
+    )
+
 
 
 # Layout for chat display
