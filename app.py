@@ -129,7 +129,7 @@ def submit_prompt():
 # Input text box with key bound to session state
 left, center, right = st.columns([3, 2, 3])
 with center:
-    st.markdown("<div style='text-align: center; font-size: 16px; font-weight: bold;'>MultiMind allows you to chat with three different AI models simultaneously. Input your prompt and press "ENTER"":</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 16px; font-weight: bold;'>MultiMind allows you to chat with three different AI models simultaneously. Input your prompt and press ENTER":</div>", unsafe_allow_html=True)
     st.text_area(
         label="",
         key="prompt_input_box",
