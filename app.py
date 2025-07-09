@@ -189,22 +189,8 @@ with col2:
         conversation += f"\n**{sender}:**\n{safe_message}\n\n"
 
     st.markdown(
-        f"""
-        <div style="
-            max-height: 70vh;
-            min-height: 200px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            font-family: monospace;
-        ">
-        {conversation}
-        </div>
-        """,
-        unsafe_allow_html=True,
+         f"<div class='response-box'>{conversation}</div>",
+         unsafe_allow_html=True,
     )
 
 with col3:
@@ -213,21 +199,9 @@ with col3:
     for sender, message in st.session_state.chat_history_3:
         safe_message = html.escape(message)
         conversation += f"\n**{sender}:**\n{safe_message}\n\n"
+
+        
     st.markdown(
-        f"""
-       <div style="
-            max-height: 70vh;
-            min-height: 200px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            font-family: monospace;
-        ">
-        {conversation}
-        </div>
-        """,
-        unsafe_allow_html=True,
+         f"<div class='response-box'>{conversation}</div>",
+         unsafe_allow_html=True,
     )
