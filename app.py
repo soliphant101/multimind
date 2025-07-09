@@ -69,7 +69,7 @@ def submit_prompt():
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
             json={
-                "model": "openai/gpt-3.5-turbo",
+                "model": "openai/gpt-3.5-turbo-0125"
                 "messages": get_message_history()
             }
         )
