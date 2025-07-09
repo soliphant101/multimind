@@ -127,7 +127,10 @@ def submit_prompt():
     st.session_state.prompt_input_box = ""
 
 # Input text box with key bound to session state
-st.text_input("Enter your prompt and press ENTER:", key="prompt_input_box", on_change=submit_prompt)
+left, center, right = st.columns([1, 2, 1])
+with center:
+    st.text_input("Enter your prompt and press ENTER:", key="prompt_input_box", on_change=submit_prompt)
+
 
 # Layout for chat display
 col1, col2, col3 = st.columns(3)
