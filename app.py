@@ -178,7 +178,7 @@ with center:
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown('<h4 class="title-font" style="text-align: center; margin-top: 0; margin-bottom: 0 rem;">DeepSeek R1</h4>', unsafe_allow_html=True)
+    st.markdown('<h4 class="title-font" style="text-align: center; margin-top: 0; margin-bottom: 0rem;">DeepSeek R1</h4>', unsafe_allow_html=True)
 
     conversation = ""
     for sender, message in st.session_state.chat_history_1:
@@ -193,7 +193,7 @@ with col1:
 
 
 with col2:
-    st.markdown('<h4 class="title-font" style="text-align: center; margin-top: 0; margin-bottom: 0 rem;">LLaMA 3</h4>', unsafe_allow_html=True)
+    st.markdown('<h4 class="title-font" style="text-align: center; margin-top: 0; margin-bottom: 0rem;">LLaMA 3</h4>', unsafe_allow_html=True)
 
     conversation = ""
     for sender, message in st.session_state.chat_history_2:
@@ -206,7 +206,7 @@ with col2:
     )
 
 with col3:
-    st.markdown('<h4 class="title-font" style="text-align: center; margin-top: 0; margin-bottom: 0 rem;">Gemini 2.0</h4>', unsafe_allow_html=True)
+    st.markdown('<h4 class="title-font" style="text-align: center; margin-top: 0; margin-bottom: 0rem;">Gemini 2.0</h4>', unsafe_allow_html=True)
     conversation = ""
     for sender, message in st.session_state.chat_history_3:
         safe_message = html.escape(message)
