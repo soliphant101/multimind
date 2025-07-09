@@ -49,8 +49,9 @@ st.markdown("""
 
 #title
 st.markdown("""
-    <h1 style='text-align: center; font-size: 3em; margin-bottom: 1rem;'>🧠 MultiMind</h1>
+    <h1 class='title-font' style='text-align: center; font-size: 3em; margin-bottom: 1rem;'>🧠 MultiMind</h1>
 """, unsafe_allow_html=True)
+
 
 # Initialize session states
 if "chat_history_1" not in st.session_state:
