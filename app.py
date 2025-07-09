@@ -26,6 +26,17 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+#fonts
+st.markdown("""
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+    /* Apply Poppins font to titles and instruction text */
+    .title-font, .instruction-font {
+        font-family: 'Poppins', sans-serif;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 
 #reduce whitespace at top of page
 st.markdown("""
@@ -200,7 +211,7 @@ with col3:
         safe_message = html.escape(message)
         conversation += f"\n**{sender}:**\n{safe_message}\n\n"
 
-        
+
     st.markdown(
          f"<div class='response-box'>{conversation}</div>",
          unsafe_allow_html=True,
